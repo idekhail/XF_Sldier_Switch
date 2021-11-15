@@ -1,43 +1,31 @@
-<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="XF_BasicBinding.MainPage">
-    <StackLayout Padding="10, 0">
-        <Label x:Name="label1"
-               Text="TEXT"
-               FontSize="40"
-               HorizontalOptions="Center"
-               VerticalOptions="CenterAndExpand" />
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-        <Slider x:Name="slider1"
-                Maximum="180" BackgroundColor="Red"
-                VerticalOptions="CenterAndExpand" />
-       
-        <Label x:Name="label2"
-               Text="TEXT"
-               FontSize="40"
-               HorizontalOptions="Center"
-               VerticalOptions="CenterAndExpand" />
-        
-        <Slider x:Name="slider2"
-                    VerticalOptions="CenterAndExpand"
-                    Value="{Binding Source={x:Reference label2},
-                     Path=Opacity}" />
+using Xamarin.Forms;
 
-        <Label Text="TEXT"
-               FontSize="40"
-               HorizontalOptions="Center"
-               VerticalOptions="CenterAndExpand"
-               BindingContext="{x:Reference Name=slider3}"
-               Rotation="{Binding Path=Value}" />
-
-        <Slider x:Name="slider3"
-                Maximum="360" BackgroundColor="Blue"
-                VerticalOptions="CenterAndExpand" />
+namespace XF_BasicBinding
+{
+    public partial class MainPage : ContentPage
+    {
+        public MainPage()
+        {
+            InitializeComponent();            
+            label1.BindingContext = slider1;
+            label1.SetBinding(Label.RotationProperty, "Value");
 
 
-        <Entry x:Name="name" Placeholder="Enter your name!!!" />
-        <Switch x:Name="s1" OnColor="Red" />
-        
-    </StackLayout>
-</ContentPage>
+            s1.Toggled += (sender, e) =>
+            {
+
+                if (s1.IsToggled == true)
+                    label1.Text = name.Text;
+                else
+                    label1.Text = "Text";
+            };
+        }
+    }
+}
